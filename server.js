@@ -17,7 +17,7 @@ db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', function() {
   console.log('Connexion a la BDD établie')
 })
-let port = process.env.PORT || 8080;
+let port = process.env.PORT || 8000;
 
 // Configuration
 app.use(helmet())

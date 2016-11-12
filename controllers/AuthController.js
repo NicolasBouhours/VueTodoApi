@@ -61,7 +61,7 @@ function login (req, res, next) {
           if (!result) {
             res.json({ success: false, message: 'Authentication failed. Wrong password.' });
           } else {
-            console.log('create token')
+
             let token = jwt.sign(user._id, config.secret, {
               expiresIn: '6h'
             })
