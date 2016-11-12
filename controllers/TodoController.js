@@ -26,8 +26,6 @@ function create (req, res, next) {
 }
 
 function update (req, res, next) {
-  console.log(req.body)
-  console.log(req.params.id)
   if (req.body.name !== undefined && req.params.id !== undefined && req.body.completed !== undefined) {
     Todo.findById(req.params.id, (err, todo) => {
       if (err) {
@@ -70,4 +68,9 @@ function remove (req, res, next) {
   }
 }
 
-module.exports = { list, create, update, remove }
+module.exports = {
+  list,
+  create,
+  update,
+  remove
+}
