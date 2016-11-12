@@ -3,7 +3,7 @@ let AuthController = require('../controllers/AuthController')
 
 const router = express.Router()
 
-router.route('/setup').get(AuthController.create)
+router.route('/setup').post(AuthController.create)
 
 router.route('/authenticate').post(AuthController.login)
 

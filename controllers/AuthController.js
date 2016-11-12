@@ -1,5 +1,7 @@
 let User = require('../models/user')
-let jwt = require('jsonwebtoken');
+let jwt = require('jsonwebtoken')
+let bcrypt = require('bcrypt')
+let salt = bcrypt.genSaltSync(10);
 const config = require('../config/config')
 
 function list (req, res, next) {
@@ -9,13 +11,13 @@ function list (req, res, next) {
 }
 
 function create (req, res, next) {
-  let nick = new User({
-    name: 'Nick Cermina',
-    password: 'password',
+  let usr = new User({
+    name: req.body.name,
+    password: bcrypt.hashSync(req.body.password, salt),
     admin: true
   })
 
-  nick.save((err) => {
+  usr.save((err) => {
     if (err) throw err
 
     console.log('User saved successfully')
@@ -29,7 +31,7 @@ function login (req, res, next) {
     if (!user) {
       res.json({ success: false, message: 'Authentication failed. User not found.' });
     } else if (user) {
-      if (user.password !== req.body.password) {
+      if (user.password !== bcrypt.hashSync(req.body.password, salt)) {
         res.json({ success: false, message: 'Authentication failed. Wrong password.' });
       } else {
         console.log('create token')
