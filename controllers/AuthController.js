@@ -11,10 +11,16 @@ function list (req, res, next) {
 }
 
 function create (req, res, next) {
+
   let usr = new User({
-    name: req.body.name,
-    password: bcrypt.hashSync(req.body.password, salt),
-    admin: true
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    password: req.body.password,
+    phone: req.body.phone,
+    address: req.body.address,
+    city: req.body.city,
+    zipCode: req.body.zipCode
   })
 
   usr.save((err) => {
