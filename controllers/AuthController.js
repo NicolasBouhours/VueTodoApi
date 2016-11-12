@@ -11,24 +11,34 @@ function list (req, res, next) {
 }
 
 function create (req, res, next) {
+  req.assert('firstName', 'firstname required').notEmpty();
+  req.assert('lastName', 'Lastname required').notEmpty();
+  req.assert('email', 'Email required').notEmpty().isEmail();
+  req.assert('password', 'Mot de passe requis').notEmpty();
 
-  let usr = new User({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    password: req.body.password,
-    phone: req.body.phone,
-    address: req.body.address,
-    city: req.body.city,
-    zipCode: req.body.zipCode
-  })
+  const errors = req.validationErrors(true);
 
-  usr.save((err) => {
-    if (err) throw err
+  if (errors) {
+    res.json(errors, 400);
+  } else {
+    let usr = new User({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password,
+      phone: req.body.phone,
+      address: req.body.address,
+      city: req.body.city,
+      zipCode: req.body.zipCode
+    })
 
-    console.log('User saved successfully')
-    res.json({success: true})
-  })
+    usr.save((err) => {
+      if (err) res.json({success: false})
+
+      console.log('User saved successfully')
+      res.json({success: true})
+    })
+  }
 }
 
 function login (req, res, next) {
